@@ -35,8 +35,9 @@
       <br>
       <input type="text" id="message" name="message" placeholder="Your Message">
       <br>
-      <button id="submit">Send</button>
       <a id="anchor" href="./"><button id="back">back</button></a>
+
+      <button id="submit">Send</button>
 
     </div>
 
@@ -46,6 +47,7 @@
   <script>
   // Register the service worker
   if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    
     navigator.serviceWorker.register('./sw.js')
     .then(registration => navigator.serviceWorker.ready)
     .then(registration => {
