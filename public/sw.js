@@ -46,7 +46,6 @@ function resolveFirstPromise(promises) {
   });
 };
 
-
 self.addEventListener('fetch', function(event) {
 
   // Check for the googleapis domain
