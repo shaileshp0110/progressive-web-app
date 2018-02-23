@@ -1,11 +1,12 @@
 // Load the sw-toolbox library.
 importScripts('./js/idb-keyval.js');
 
-const cacheName = 'latestNews-v2';
+const cacheName = 'latestNews-v3';
 const offlineUrl = '/offline';
 
 // Cache our known resources during install
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(cacheName)
     .then(cache => cache.addAll([
@@ -21,6 +22,7 @@ self.addEventListener('install', event => {
     ]))
   );
 });
+
 
 // Handle network delays
 function timeout(delay) {
