@@ -1,12 +1,11 @@
 // Load the sw-toolbox library.
 importScripts('./js/idb-keyval.js');
 
-const cacheName = 'latestNews-v4';
+const cacheName = 'latestNews-v5';
 const offlineUrl = '/offline';
 
 // Cache our known resources during install
 self.addEventListener('install', event => {
-  self.skipWaiting();
   event.waitUntil(
     caches.open(cacheName)
     .then(cache => cache.addAll([
@@ -19,15 +18,39 @@ self.addEventListener('install', event => {
       './article',
       './',
       offlineUrl
-    ]))
-  ).then(function() {
-    console.log('[ServiceWorker] Skip waiting on install');
-    return self.skipWaiting();
-  }
-
+    ])).then(function() {
+      console.log('[ServiceWorker] Skip waiting on install');
+      return self.skipWaiting();
+    }
+    )
   );
 });
 
+
+// self.addEventListener('install', function(event) {
+//   event.waitUntil(
+// 	caches.open('my-cache').then(function(cache) {
+//         // Important to `return` the promise here to have `skipWaiting()`
+//         // fire after the cache has been updated.
+//         return cache.addAll([/* file1.jpg, file2.png, ... */]);
+//     }).then(function() {
+//       // `skipWaiting()` forces the waiting ServiceWorker to become the
+//       // active ServiceWorker, triggering the `onactivate` event.
+//       // Together with `Clients.claim()` this allows a worker to take effect
+//       // immediately in the client(s).
+//       return self.skipWaiting();
+//     })
+//   );
+// });
+
+// Activate event
+// Be sure to call self.clients.claim()
+self.addEventListener('activate', function(event) {
+	// `claim()` sets this worker as the active worker for all clients that
+	// match the workers scope and triggers an `oncontrollerchange` event for
+	// the clients.
+	return self.clients.claim();
+});
 
 // Handle network delays
 function timeout(delay) {
