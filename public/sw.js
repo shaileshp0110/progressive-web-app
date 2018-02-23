@@ -1,7 +1,7 @@
 // Load the sw-toolbox library.
 importScripts('./js/idb-keyval.js');
 
-const cacheName = 'latestNews-v3';
+const cacheName = 'latestNews-v4';
 const offlineUrl = '/offline';
 
 // Cache our known resources during install
@@ -20,6 +20,11 @@ self.addEventListener('install', event => {
       './',
       offlineUrl
     ]))
+  ).then(function() {
+    console.log('[ServiceWorker] Skip waiting on install');
+    return self.skipWaiting();
+  }
+
   );
 });
 
