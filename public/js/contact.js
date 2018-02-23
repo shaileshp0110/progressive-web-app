@@ -52,6 +52,7 @@ function queueMessage(){
 
   // Save to indexdb
   idbKeyval.set('sendMessage', payload);
+
 }
 
 // Update the online status icon based on connectivity

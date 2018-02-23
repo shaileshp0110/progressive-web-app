@@ -35,7 +35,7 @@ app.get('/offline', function (req, res) {
 app.post('/sendMessage', function (req, res) {
   res.json(`Message sent to ${req.body.email}`);
 });
-var server_port = process.env.PORT || 80;
+var server_port = process.env.PORT || 3111;
 
 // The server
 app.listen(server_port, function () {
