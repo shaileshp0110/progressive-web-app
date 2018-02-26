@@ -1,7 +1,7 @@
 // Load the sw-toolbox library.
 importScripts('./js/idb-keyval.js');
 
-const cacheName = 'latestNews-v10';
+const cacheName = 'latestNews-v15';
 const offlineUrl = '/offline';
 
 // Cache our known resources during install
