@@ -52,7 +52,17 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', function(event) {
 	// `claim()` sets this worker as the active worker for all clients that
 	// match the workers scope and triggers an `oncontrollerchange` event for
-	// the clients.
+  // the clients.
+  event.waitUntil(
+		caches.keys().then(function(keyList) {
+			return Promise.all(keyList.map(function(key) {
+				if (key !== cacheName) {
+					console.log('[ServiceWorker] Removing old cache...', key);
+					return caches.delete(key);
+				}
+			}));
+		})
+	);
 	return self.clients.claim();
 });
 
