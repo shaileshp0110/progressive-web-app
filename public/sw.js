@@ -151,3 +151,51 @@ self.addEventListener('sync', function (event) {
         idbKeyval.delete('sendMessage');
     }
 });
+
+
+self.addEventListener('push', function (event) {
+
+  var payload = event.data ? JSON.parse(event.data.text()) : 'no payload';
+
+  var title = 'Progressive Times';
+
+  // Determine the type of notification to display
+  if (payload.type === 'register') {
+    event.waitUntil(
+      self.registration.showNotification(title, {
+        body: payload.msg,
+        url: payload.url,
+        icon: payload.icon
+      })
+    );
+  } else if (payload.type === 'actionMessage') {
+    event.waitUntil(
+      self.registration.showNotification(title, {
+        body: payload.msg,
+        url: payload.url,
+        icon: payload.icon,
+        actions: [
+          { action: 'voteup', title: '👍 Vote Up' },
+          { action: 'votedown', title: '👎 Vote Down' }]
+      })
+    );
+  }
+});
+
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+
+  // Check if any actions were added
+  if (event.action === 'voteup') {
+    clients.openWindow('http://localhost:3111/voteup');
+  }
+  else if (event.action === 'voteup') {
+    clients.openWindow('http://localhost:3111/votedown');
+  }
+  else {
+    clients.openWindow('http://localhost:3111');
+  }
+}, false);
+
+
+
