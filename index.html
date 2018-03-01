@@ -70,9 +70,7 @@
 
         return registration.pushManager.getSubscription()
           .then(function(subscription) {
-            console.log('ServiceWorker registration endpoint: ', subscription.endpoint);
-                  console.log('ServiceWorker registration p256dh: ', subscription.getKey('p256dh'));
-                  console.log('ServiceWorker registration auth: ', subscription.getKey('auth'));
+  
               if (subscription) {
                 // We already have a subscription, let's not add them again
                 return;
@@ -83,10 +81,7 @@
                   applicationServerKey: determineAppServerKey()
                 })
                 .then(function(subscription) {
-                  console.log('ServiceWorker registration2 endpoint: ', subscription.endpoint);
-                  console.log('ServiceWorker registration2 p256dh: ', subscription.getKey('p256dh'));
-                  console.log('ServiceWorker registration2 auth: ', subscription.getKey('auth'));
-
+              
 
                   var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
                   key = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : '';

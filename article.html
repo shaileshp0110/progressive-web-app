@@ -97,7 +97,7 @@
                   console.log('key : ', key);
                   console.log('authSecret: ', authSecret);
 
-                  return fetch('http://localhost:3111/sendMessage', {
+                  return fetch('/sendMessage', {
                     method: 'post',
                     headers: new Headers({
                       'content-type': 'application/json'
