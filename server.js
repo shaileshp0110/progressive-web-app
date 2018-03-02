@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/unsubsrcribe', function (req, res) {
-  res.sendFile(path.join(__dirname + '/unsubsrcribe.html'));
+app.get('/unsubscribe', function (req, res) {
+  res.sendFile(path.join(__dirname + '/unsubscribe.html'));
 });
 
 
