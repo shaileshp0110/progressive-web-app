@@ -20,6 +20,7 @@ self.addEventListener('install', event => {
       './data/latest.json',
       './data/data-1.json',
       './article',
+      './unsubscribe',
       './',
       offlineUrl
     ])).then(function() {
