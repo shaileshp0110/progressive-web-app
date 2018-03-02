@@ -31,7 +31,6 @@ function unsubscribe() {
       subscription.unsubscribe()
         .then(() => {
           console.log('Successfully unsubscribed');
-          changeStatus(false);
         })
         .catch((error) => {
           console.error(error);
