@@ -11,10 +11,11 @@
     //To unsubscribe push notification
 
 
-    const unsubscribe = document.getElementById('unsubscribe');
+const unsubscribe = document.getElementById('unsubscribe');
 pushBtn.addEventListener('click', () => {
     unsubscribe();
 });
+
 function unsubscribe() {
   navigator.serviceWorker.ready
   .then((registration) => {
