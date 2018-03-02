@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Progressive Times</title>
+  <link rel="manifest" href="/manifest.json">
+  <button type="button" id="unsubscribe">Unsubscribe</button>
+</head>
+<body>
+<script>
+    //To unsubscribe push notification
+function unsubscribe() {
+  navigator.serviceWorker.ready
+  .then((registration) => {
+    registration.pushManager.getSubscription()
+    .then((subscription) => {
+      //If not push subscription, then return
+      if(!subscription) {
+        console.error('Unable to unregister from push notification');
+        return;
+      }
+
+      //Unsubscribe
+      subscription.unsubscribe()
+        .then(() => {
+          console.log('Successfully unsubscribed');
+          changeStatus(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    })
+    .catch((error) => {
+      console.error('Failed to unsubscribe push notification');
+    });
+  })
+}
+</script>
+</body>
+</html>
