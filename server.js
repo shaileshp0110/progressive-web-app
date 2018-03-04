@@ -4,6 +4,14 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
+
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
+var mongoUri = process.env.MONGOLAB_URI || 'mongodb://localhost/test';
+var USERS_COLLECTION = "usersCollection";
+// Create a database variable outside of the database connection callback to reuse the connection pool in your app.
+var db;
+
 // Express setup
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -41,20 +49,42 @@ app.get('/offline', function (req, res) {
 // app.post('/sendMessage', function (req, res) {
 //   res.json(`Message sent to ${req.body.email}`);
 // });
-var server_port = process.env.PORT || 3111;
 
-// The server
-app.listen(server_port, function () {
-  console.log('Example app listening on port' + server_port)
+
+
+
+// Connect to the database before starting the application server. 
+mongodb.MongoClient.connect(mongoUri, function (err, database) {
+ if (err) {
+ console.log(err);
+ process.exit(1);
+ }
+
+ // Save database object from the callback for reuse.
+ db = database;
+ console.log("Database connection ready");
+ var server_port = process.env.PORT || 3111;
+
+ // The server
+ app.listen(server_port, function () {
+   console.log('App listening on port : ' + server_port)
+ });
 });
 
 
 
-
-
-
-function saveRegistrationDetails(endpoint, key, authSecret) {
+function saveRegistrationDetails(req) {
   // Save the users details in a DB
+  var userDetails = req.body;
+  userDetails.createDate = new Date();
+    db.collection(USERS_COLLECTION).insertOne(userDetails, function(err, doc) {
+      if (err) {
+        console.log("Failed to create new user details " , err.message);
+      } else {
+        console.log("Saved to mongo collection" , doc.ops[0]);
+      }
+    });
+
 }
 
 webpush.setVapidDetails(
@@ -94,7 +124,7 @@ app.post('/sendMessage', function (req, res) {
   webpush.sendNotification(pushSubscription,
     JSON.stringify({
       msg: body,
-      url: 'http://localhost:3111/article?id=1',
+      url: '/article?id=1',
       icon: iconUrl,
       type: 'actionMessage'
     }))
@@ -115,7 +145,7 @@ app.post('/register', function (req, res) {
   var key = req.body.key;
 
   // Store the users registration details
-  saveRegistrationDetails(endpoint, key, authSecret);
+  saveRegistrationDetails(req);
 
   const pushSubscription = {
     endpoint: req.body.endpoint,
@@ -126,12 +156,12 @@ app.post('/register', function (req, res) {
   };
 
   var body = 'Thank you for registering';
-  var iconUrl = 'https://raw.githubusercontent.com/deanhume/progressive-web-apps-book/master/chapter-6/push-notifications/public/images/homescreen.png';
+  var iconUrl = '/images/icon-60.png';
 
   webpush.sendNotification(pushSubscription,
     JSON.stringify({
       msg: body,
-      url: 'https://localhost:3111',
+      url: '/',
       icon: iconUrl,
       type: 'register'
     }))
@@ -144,3 +174,10 @@ app.post('/register', function (req, res) {
     });
 
 });
+
+
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+  console.log("ERROR: " + reason);
+  res.status(code || 500).json({"error": message});
+ }

@@ -7,55 +7,15 @@
   <button type="button" id="unsubscribe">Unsubscribe</button>
 </head>
 <body>
+ <script async src="js/push.js"></script>
+
 <script>
-    //To unsubscribe push notification
-
-
+//To unsubscribe push notification
 const unsubscribebtn = document.getElementById('unsubscribe');
 unsubscribebtn.addEventListener('click', () => {
     unsubscribe();
 });
 
-
-   
-
-
-function unsubscribe() {
-  navigator.serviceWorker.ready
-  .then((registration) => {
-    registration.pushManager.getSubscription()
-    .then((subscription) => {
-
-               var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
-                  key = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : '';
-                  var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
-                  authSecret = rawAuthSecret ?
-                    btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) : '';
-
-                  endpoint = subscription.endpoint;
-                  console.log('Successfully key', key);
-                  console.log('Successfully authSecret' , authSecret); 
-                  console.log('Successfully endpoint',endpoint);
-      //If not push subscription, then return
-      if(!subscription) {
-        console.error('Unable to unregister from push notification');
-        return;
-      }
-
-      //Unsubscribe
-      subscription.unsubscribe()
-        .then(() => {
-          console.log('Successfully unsubscribed');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    })
-    .catch((error) => {
-      console.error('Failed to unsubscribe push notification');
-    });
-  })
-}
 </script>
 </body>
 </html>

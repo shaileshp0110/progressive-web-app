@@ -11,6 +11,7 @@ self.addEventListener('install', event => {
     .then(cache => cache.addAll([
       './js/main.js',
       './js/article.js',
+      './js/push.js',
       './images/newspaper.svg',
       'manifest.json',
       './images/icon-60.png',
