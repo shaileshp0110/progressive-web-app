@@ -25,10 +25,6 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/unsubscribe', function (req, res) {
-  res.sendFile(path.join(__dirname + '/unsubscribe.html'));
-});
-
 
 // Article page
 app.get('/article', function (req, res) {
