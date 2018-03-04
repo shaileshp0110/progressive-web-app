@@ -12,6 +12,7 @@ self.addEventListener('install', event => {
       './js/main.js',
       './js/article.js',
       './js/push.js',
+      './js/contact.js',
       './images/newspaper.svg',
       'manifest.json',
       './images/icon-60.png',
@@ -21,6 +22,7 @@ self.addEventListener('install', event => {
       './data/latest.json',
       './data/data-1.json',
       './article',
+      './contact',
       './',
       offlineUrl
     ])).then(function() {
