@@ -190,13 +190,13 @@ self.addEventListener('notificationclick', function (event) {
 
   // Check if any actions were added
   if (event.action === 'voteup') {
-    clients.openWindow('http://localhost:3111/voteup');
+    clients.openWindow('/voteup');
   }
   else if (event.action === 'voteup') {
-    clients.openWindow('http://localhost:3111/votedown');
+    clients.openWindow('/votedown');
   }
   else {
-    clients.openWindow('http://localhost:3111');
+    clients.openWindow('/');
   }
 }, false);
 

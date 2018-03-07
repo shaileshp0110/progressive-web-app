@@ -41,7 +41,7 @@ app.get('/offline', function (req, res) {
   res.sendFile(path.join(__dirname + '/offline-page.html'));
 });
 
-// Send a message
+//Send a message
 // app.post('/sendMessage', function (req, res) {
 //   res.json(`Message sent to ${req.body.email}`);
 // });
@@ -102,35 +102,40 @@ app.get('/article', function (req, res) {
 // Send a message
 app.post('/sendMessage', function (req, res) {
 
-  var endpoint = req.body.endpoint;
-  var authSecret = req.body.authSecret;
-  var key = req.body.key;
-
-  const pushSubscription = {
-    endpoint: req.body.endpoint,
-    keys: {
-      auth: authSecret,
-      p256dh: key
-    }
-  };
-
-  var body = 'Breaking News: Nose picking ban for Manila police';
-  var iconUrl = 'https://raw.githubusercontent.com/deanhume/progressive-web-apps-book/master/chapter-6/push-notifications/public/images/homescreen.png';
-
-  webpush.sendNotification(pushSubscription,
-    JSON.stringify({
-      msg: body,
-      url: '/article?id=1',
-      icon: iconUrl,
-      type: 'actionMessage'
-    }))
-    .then(result => {
-      console.log(result);
-      res.sendStatus(201);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  
+  if (req.body.email != undefined) {
+    res.json(`Message sent to ${req.body.email}`);
+  } else {
+    var endpoint = req.body.endpoint;
+    var authSecret = req.body.authSecret;
+    var key = req.body.key;
+  
+    const pushSubscription = {
+      endpoint: req.body.endpoint,
+      keys: {
+        auth: authSecret,
+        p256dh: key
+      }
+    };
+  
+    var body = 'Breaking News: Nose picking ban for Manila police';
+    var iconUrl = 'https://raw.githubusercontent.com/deanhume/progressive-web-apps-book/master/chapter-6/push-notifications/public/images/homescreen.png';
+  
+    webpush.sendNotification(pushSubscription,
+      JSON.stringify({
+        msg: body,
+        url: '/article?id=1',
+        icon: iconUrl,
+        type: 'actionMessage'
+      }))
+      .then(result => {
+        console.log(result);
+        res.sendStatus(201);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 });
 
 // Register the user
